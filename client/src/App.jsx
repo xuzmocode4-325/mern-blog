@@ -5,20 +5,22 @@ import {
   RouterProvider,
   Outlet,
 } from "react-router-dom";
-import Dashboard from './pages/Dashboard';
+
 import Home from './pages/Home';
 import Post from './pages/Post';
 import Blog from './pages/Blog';
+import About from './pages/About';
 import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
-import Navbar from './components/Navbar';
+import Dashboard from './pages/Dashboard';
+import Header from './components/Header';
 import Footer from './components/Footer';
 
 const Layout = () => {
 
   return(
     <>
-      <Navbar/>
+      <Header/>
       <Outlet/>
       <Footer/>
     </>
@@ -45,15 +47,19 @@ const router = createBrowserRouter([
       {
         path:"/blog",
         element:<Blog/>
+      },
+      {
+        path:"/about",
+        element:<About/>
       }
     ]
   },
   {
-    path:"/signup",
+    path:"/sign-up",
     element: <div className="page"><SignUp/></div>
   },
   {
-    path:"/signin",
+    path:"/sign-in",
     element: <div className="page"><SignIn/></div>
   }
 ])
