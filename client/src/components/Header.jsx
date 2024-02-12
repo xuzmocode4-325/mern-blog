@@ -32,7 +32,7 @@ const Header = () => {
         </Button>
         <Link to='/sign-in' >
           <Button className='text-sm sm:text-xl'
-            gradientDuoTone="redToYellow">
+            gradientDuoTone="redToYellow" outline>
             Sign In
           </Button>
         </Link>
