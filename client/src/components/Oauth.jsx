@@ -1,40 +1,42 @@
-import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { Button, Spinner } from 'flowbite-react';
 import { AiFillGoogleCircle } from 'react-icons/ai';
-import { useDispatch } from 'react-redux';
-import { signInSuccess } from '../redux/user/userSlice';
+import { useNavigate } from 'react-router-dom';
+import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice';
 import { GoogleAuthProvider, signInWithPopup, getAuth} from 'firebase/auth';
 import { app } from '../firebase';
+
+
 
 const Oauth = () => {
     const auth = getAuth(app);
     const dispatch = useDispatch()
-    const [loading, setLoading]  = useState(false);
-    const [errorMessage, setErrorMessage] = useState(null);
+    const navigate = useNavigate()
+    const {loading, error: errorMessage} = useSelector(state => state.user);
     const handleGoogleClick = async () => {
-        setLoading(true)
-        setErrorMessage(null)
+        
         const provider = new GoogleAuthProvider();
-            provider.setCustomParameters({prompt:'select_account'})
+        provider.setCustomParameters({prompt:'select_account'});
+
         try {
+            dispatch(signInStart());
             const googleUserResults = await signInWithPopup(auth, provider)
             const res = await fetch('/api/auth/google', {
-                method: 'Post',
+                method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
                     name: googleUserResults.user.displayName,
                     email: googleUserResults.user.email,
                     avatar: googleUserResults.user.photoURL
-                })
+                }),
             });
-            const data = await res.join()
+            const data = await res.json()
             if (res.ok){
-                setLoading(false)
                 dispatch(signInSuccess(data))
+                navigate('/');
             }
         } catch(error) {
-            setErrorMessage(error.message)
-            setLoading(false);
+            dispatch(signInFailure(error.message));
         }
     }
   return (

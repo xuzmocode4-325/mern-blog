@@ -61,44 +61,54 @@ export const signin = async(req, res, next) => {
 };
 
 export const google = async (req, res, next) => {
-    const {email, name, avatar} = req.body;
-    
+
+    const {name, email, avatar} = req.body;
+
     try{
         const existingUser = await User.findOne({email});
 
         if(existingUser){
             const token = jwt.sign(
-                {id: validUser._id}, process.env.JWT_SECRET
-            )
+                {id: existingUser._id}, process.env.JWT_SECRET
+            );
+
             const {password, ...rest} = existingUser._doc;
+
             res.status(200).cookie('access_token', token, {
                 httpOnly: 'true'}
             ).json(rest)
+
         } else {
-            const fullPass = (
+            const generatedPassword = (
                 Math.random().toString(36).slice(-8) +
                 Math.random().toString(36).slice(-8)
                 );
-            const hashedPassword = bcryptjs.hashSync(fullPass, 12)
-            const nicknamify = (name) => {
+            const hashedPassword = bcryptjs.hashSync(generatedPassword, 12)
+            
+            const nicknamify = (input) => {
                 const randomSuffix = Math.random().toString(9).slice(-4) 
-                const nickname = name.toLowerCase().split(" ").join("") + randomSuffix
+                const nickname = input.toLowerCase().split(" ").join("") + randomSuffix
                 return nickname
             }
+
+            const nickname = nicknamify(name)
+
             const newUser = new User({
-              username: nicknamify(name),
+              username: nickname,
               email,
               password: hashedPassword,
-              avatar
+              avatar,
             });
+
+            console.log(newUser)
 
             await newUser.save()
 
             const token = jwt.sign(
-                {id: validUser._id}, process.env.JWT_SECRET
+                {id: newUser._id}, process.env.JWT_SECRET
             );
 
-            const {pass, ...rest} = newUser._doc
+            const {password, ...rest} = newUser._doc
 
             res.status(200).cookie('access_token', token, {
                 httpOnly: 'true'}
