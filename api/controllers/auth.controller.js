@@ -45,16 +45,66 @@ export const signin = async(req, res, next) => {
             return next(errorHandler(400, "Matching credenitials not found"))
         }
 
-    const token = jwt.sign(
-        {id: validUser._id}, process.env.JWT_SECRET
-    );
+        const token = jwt.sign(
+            {id: validUser._id}, process.env.JWT_SECRET
+        );
 
-    const {password: pass, ...rest} = validUser._doc
+        const {password: pass, ...rest} = validUser._doc
 
-    res.status(200).cookie('access_token', token, {
-        httpOnly: 'true'}).json(rest)
+        res.status(200).cookie('access_token', token, {
+            httpOnly: 'true'}
+        ).json(rest)
 
     }catch (error){
         next(error)
     }
 };
+
+export const google = async (req, res, next) => {
+    const {email, name, avatar} = req.body;
+    
+    try{
+        const existingUser = await User.findOne({email});
+
+        if(existingUser){
+            const token = jwt.sign(
+                {id: validUser._id}, process.env.JWT_SECRET
+            )
+            const {password, ...rest} = existingUser._doc;
+            res.status(200).cookie('access_token', token, {
+                httpOnly: 'true'}
+            ).json(rest)
+        } else {
+            const fullPass = (
+                Math.random().toString(36).slice(-8) +
+                Math.random().toString(36).slice(-8)
+                );
+            const hashedPassword = bcryptjs.hashSync(fullPass, 12)
+            const nicknamify = (name) => {
+                const randomSuffix = Math.random().toString(9).slice(-4) 
+                const nickname = name.toLowerCase().split(" ").join("") + randomSuffix
+                return nickname
+            }
+            const newUser = new User({
+              username: nicknamify(name),
+              email,
+              password: hashedPassword,
+              avatar
+            });
+
+            await newUser.save()
+
+            const token = jwt.sign(
+                {id: validUser._id}, process.env.JWT_SECRET
+            );
+
+            const {pass, ...rest} = newUser._doc
+
+            res.status(200).cookie('access_token', token, {
+                httpOnly: 'true'}
+            ).json(rest)
+        };
+    } catch (error) {
+        next(error)
+    }
+}

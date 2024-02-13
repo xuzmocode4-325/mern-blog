@@ -1,6 +1,7 @@
 import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react'
 import {React,  useState} from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import Oauth from '../components/Oauth';
 
 const SignUp = () => {
   const [formData, setFormData] = useState({});
@@ -62,14 +63,14 @@ const SignUp = () => {
           <div className='flex-1 md:mt-20'>
             <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
               <div className="">
-                <Label value='Username'/>
+                <Label value='Username' htmlFor='username'/>
                 <TextInput type='text' autoComplete='username'
                 placeholder='Username' id='username' onChange={handleChange}/>
-                <Label value='Email'/>
+                <Label value='Email' htmlFor='email'/>
                 <TextInput type='email'autoComplete='email' 
                   placeholder='Email' id='email' onChange={handleChange}/>
-                <Label value='Password'/>
-                <TextInput type='password' autoComplete='password' 
+                <Label value='Password' htmlFor='password'/>
+                <TextInput type='password' autoComplete='new_password' 
                   placeholder='Password' id='password' onChange={handleChange}/>
               </div>
               <Button gradientDuoTone='redToYellow' type='submit'>
@@ -82,6 +83,7 @@ const SignUp = () => {
                   ) : 'Sign Up'
                 }
               </Button>
+              <Oauth/>
             </form>
             <div className="flex gap-2 text-sm mt-5">
               <span>Have an account?</span>

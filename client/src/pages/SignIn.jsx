@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react'
 import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice';
+import Oauth from '../components/Oauth';
 
 const SignIn = () => {
   const [formData, setFormData] = useState({});
@@ -61,15 +62,15 @@ const SignIn = () => {
           <div className='flex-1 md:mt-20'>
             <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
             <div className="">
-                <Label value='Username'/>
+                <Label value='Username' htmlFor='username'/>
                 <TextInput type='text' autoComplete='username'
                 placeholder='Username' id='username' onChange={handleChange}/>
-                <Label value='Password'/>
+                <Label value='Password' htmlFor='password'/>
                 <TextInput type='password' autoComplete='current-password' 
                   placeholder='Password' id='password' onChange={handleChange}/>
               </div>
               <Button gradientDuoTone='redToYellow' type='submit'>
-              {
+                {
                   loading ? (
                     <>
                       <Spinner size='sm'/>
@@ -78,6 +79,7 @@ const SignIn = () => {
                   ) : 'Sign In'
                 }
               </Button>
+              <Oauth/>
             </form>
             <div className="flex gap-2 text-sm mt-5">
               <span>Don't have an account?</span>
