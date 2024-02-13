@@ -7,11 +7,9 @@ const SignUp = () => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [loading, setLoading]  = useState(false);
   const navigate = useNavigate();
-  
   const handleChange = (e) => {
     setFormData({...formData, [e.target.id]: e.target.value.trim()})
   }
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.username || !formData.email || !formData.password) {
@@ -71,7 +69,7 @@ const SignUp = () => {
                 <TextInput type='email'autoComplete='email' 
                   placeholder='Email' id='email' onChange={handleChange}/>
                 <Label value='Password'/>
-                <TextInput type='password' autoComplete='current-password' 
+                <TextInput type='password' autoComplete='password' 
                   placeholder='Password' id='password' onChange={handleChange}/>
               </div>
               <Button gradientDuoTone='redToYellow' type='submit'>

@@ -1,25 +1,24 @@
-import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react'
-import {React,  useState} from 'react'
+import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux';
+import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react'
+import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice';
 
 const SignIn = () => {
   const [formData, setFormData] = useState({});
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [loading, setLoading]  = useState(false);
+  const {loading, error: errorMessage} = useSelector(state => state.user);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  
   const handleChange = (e) => {
     setFormData({...formData, [e.target.id]: e.target.value.trim()})
   }
-  
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.username || !formData.password) {
-      return setErrorMessage('Please ensure all fields are filled.')
+      return dispatch(signInFailure('Please ensure all fields are filled.'))
     }
     try {
-      setLoading(true);
-      setErrorMessage(null);
+      dispatch(signInStart());
       const res = await fetch('/api/auth/signin', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -27,16 +26,14 @@ const SignIn = () => {
       });
       const data = await res.json();
       if (data.success === false) {
-        setLoading(false)
-        return setErrorMessage(data.message);
+        dispatch(signInFailure(data.message));
       }
-      setLoading(false)
       if(res.ok){
-        navigate('/')
+        dispatch(signInSuccess(data));
+        navigate('/');
       }
     } catch (error) {
-       setErrorMessage(error.message)
-       setLoading(false);
+        dispatch(signInFailure(error.message));
     }
   }
 
@@ -63,7 +60,7 @@ const SignIn = () => {
           {/* right */}
           <div className='flex-1 md:mt-20'>
             <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
-              <div className="">
+            <div className="">
                 <Label value='Username'/>
                 <TextInput type='text' autoComplete='username'
                 placeholder='Username' id='username' onChange={handleChange}/>
@@ -78,7 +75,7 @@ const SignIn = () => {
                       <Spinner size='sm'/>
                       <span className='pl-3'>Loading...</span>
                     </>
-                  ) : 'Sign Up'
+                  ) : 'Sign In'
                 }
               </Button>
             </form>
