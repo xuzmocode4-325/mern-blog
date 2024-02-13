@@ -17,7 +17,7 @@ export default {
       gray: colors.gray,
       emerald: colors.emerald,
       slate: colors.slate,
-      zinc: colors.gray,
+      zinc: colors.zinc,
       neutral: colors.neutral,
       stone: colors.stone,
       red: colors.red,

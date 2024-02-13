@@ -11,11 +11,11 @@ const PageFooter = () =>  {
         <div className="grid w-full justify-between  sm:flex md:grid-cols-1">
           <div className="">
             <Link to="/" className='self-center whitespace-nowrap 
-              text-lg sm:text-xl font-semibold dark:text-white'>
+              text-lg sm:text-xl font-semibold dark:text-ivory'>
               Wellness 
                 <span className='px-2 py-1 bg-gradient-to-r
                   from-yellow-200 via-red-300
-                  to-orange-300 rounded-md text-white'>
+                  to-orange-300 rounded-md text-ivory dark:text-zinc-900'>
                   Hub
                 </span>
             </Link> 

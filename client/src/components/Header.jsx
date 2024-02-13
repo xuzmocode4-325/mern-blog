@@ -1,22 +1,23 @@
-import React from 'react';
-
 import { Navbar, TextInput, Button, Dropdown, Avatar } from 'flowbite-react';
+import { useSelector, useDispatch } from 'react-redux';
+import { toggleTheme } from '../redux/theme/themeSlice';
 import { Link, useLocation } from 'react-router-dom';
 import { AiOutlineSearch } from 'react-icons/ai';
-import { useSelector } from 'react-redux';
-import { FaMoon } from 'react-icons/fa';
+import { FaMoon, FaSun } from 'react-icons/fa';
 
 const Header = () => {
   const path = useLocation().pathname;
+  const dispatch = useDispatch();
   const { currentUser } = useSelector(state => state.user)
+  const { theme } = useSelector(state => state.theme)
   return (
     <Navbar className="border-b-2">
       <Link to="/" className='self-center whitespace-nowrap 
-        text-sm sm:text-xl font-semibold dark:text-white'>
+        text-sm sm:text-xl font-semibold dark:text-ivory'>
         Wellness 
           <span className='px-2 py-1 bg-gradient-to-r
              from-yellow-200 via-red-300
-             to-orange-300 rounded-md text-white'>
+             to-orange-300 rounded-md text-off-white dark:text-zinc-900'>
             Hub
           </span>
       </Link>  
@@ -30,8 +31,10 @@ const Header = () => {
       </Button>
       <div className="flex gap-2 md:order-2">
         <Button className='w-12 h-10 hidden sm:inline' 
-          color='gray'>
-          <FaMoon/>
+          color='gray' onClick={() => dispatch(toggleTheme())}>
+            {
+              theme === 'dark' ? <FaSun/> : <FaMoon/>
+            }
         </Button>
         { currentUser ? (
           <Dropdown  arrowIcon={false}
