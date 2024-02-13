@@ -41,63 +41,63 @@ const SignUp = () => {
   }
 
   return (
-    <div className='min-h-screen mt-20'>
-      <div className="flex p-3 max-w-3xl mx-auto
-        flex-col md:flex-row gap-5 md:items-center">
-        {/* left */}
-        <div className='flex-1'>
-          <Link to="/" className='font-bold dark:text-white text-4xl'>
-            Wellness 
-              <span className='px-2 py-1 bg-gradient-to-r
-                from-yellow-200 via-red-300
-                to-orange-300 rounded-md text-white'>
-                Hub
-              </span>
-          </Link>  
-          <div className="text-sm mt-5">
-            <p>
-            Cillum amet qui incididunt laboris commodo officia reprehenderit ipsum adipisicing tempor veniam.
-            </p>
-          </div>
-        </div>  
-        {/* right */}
-        <div className='flex-1'>
-          <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
-            <div className="">
-              <Label value='Username'/>
-              <TextInput type='text' autoComplete='username'
-              placeholder='Username' id='username' onChange={handleChange}/>
-              <Label value='Email'/>
-              <TextInput type='email'autoComplete='email' 
-                placeholder='Email' id='email' onChange={handleChange}/>
-              <Label value='Password'/>
-              <TextInput type='password' autoComplete='current-password' 
-                placeholder='Password' id='password' onChange={handleChange}/>
+    <div className='max-h-screen mt-20'>
+      <div className="flex p-5 max-w-3xl mx-auto
+        flex-col md:flex-row gap-5 md:items-center ">
+          {/* left */}
+          <div className='flex-1 md:mt-20'>
+            <Link to="/" className='font-bold dark:text-white text-4xl'>
+              Wellness 
+                <span className='px-2 py-1 bg-gradient-to-r
+                  from-yellow-200 via-red-300
+                  to-orange-300 rounded-md text-white'>
+                  Hub
+                </span>
+            </Link>  
+            <div className="text-sm mt-5">
+              <p>
+              Cillum amet qui incididunt laboris commodo officia reprehenderit ipsum adipisicing tempor veniam.
+              </p>
             </div>
-            <Button gradientDuoTone='redToYellow' type='submit'>
+          </div>  
+          {/* right */}
+          <div className='flex-1 md:mt-20'>
+            <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
+              <div className="">
+                <Label value='Username'/>
+                <TextInput type='text' autoComplete='username'
+                placeholder='Username' id='username' onChange={handleChange}/>
+                <Label value='Email'/>
+                <TextInput type='email'autoComplete='email' 
+                  placeholder='Email' id='email' onChange={handleChange}/>
+                <Label value='Password'/>
+                <TextInput type='password' autoComplete='current-password' 
+                  placeholder='Password' id='password' onChange={handleChange}/>
+              </div>
+              <Button gradientDuoTone='redToYellow' type='submit'>
+              {
+                  loading ? (
+                    <>
+                      <Spinner size='sm'/>
+                      <span className='pl-3'>Loading...</span>
+                    </>
+                  ) : 'Sign Up'
+                }
+              </Button>
+            </form>
+            <div className="flex gap-2 text-sm mt-5">
+              <span>Have an account?</span>
+              <Link to='/sign-in' className='text-blue-600' disabled={loading}>
+                Sign In
+              </Link>
+            </div>
             {
-                loading ? (
-                  <>
-                    <Spinner size='sm'/>
-                    <span className='pl-3'>Loading...</span>
-                  </>
-                ) : 'Sign Up'
-              }
-            </Button>
-          </form>
-          <div className="flex gap-2 text-sm mt-5">
-            <span>Have an account?</span>
-            <Link to='/sign-in' className='text-blue-600' disabled={loading}>
-              Sign Up
-            </Link>
-          </div>
-          {
-            errorMessage && (
-              <Alert className='mt-5 text-center font-semibold' color='failure'>
-                {errorMessage}
-              </Alert>
-            )
-          }
+              errorMessage && (
+                <Alert className='mt-5 text-center font-semibold' color='failure'>
+                  {errorMessage}
+                </Alert>
+              )
+            }
         </div>
       </div>
     </div>
