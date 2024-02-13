@@ -15,6 +15,7 @@ import SignIn from './pages/SignIn';
 import Dashboard from './pages/Dashboard';
 import Header from './components/Header';
 import PageFooter from './components/PageFooter';
+import PrivateRoute from './components/PrivateRoute';
 
 const Layout = () => {
 
@@ -41,8 +42,13 @@ const router = createBrowserRouter([
         element:<Post/>
       },
       {
-        path:"/dashboard",
-        element:<Dashboard/>
+        element: <PrivateRoute/>,
+        children: [
+          {
+            path: "/dashboard",
+            element: <Dashboard/>
+          }
+        ] 
       },
       {
         path:"/blog",

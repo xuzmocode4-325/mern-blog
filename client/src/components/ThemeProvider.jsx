@@ -5,8 +5,8 @@ function ThemeProvider({children}) {
     const {theme} = useSelector(state => state.theme)
   return (
     <div className={theme}>
-        <div className='bg-off-white text-stone-800
-            dark:text-ivory dark:bg-zinc-900' >
+        <div className='bg-white text-stone-800
+            dark:text-ivory dark:bg-[rgb(31,41,55)]' >
         {children}
         </div>
     </div>
