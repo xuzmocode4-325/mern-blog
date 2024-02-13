@@ -6,7 +6,7 @@ import { BsPinterest, BsReddit, BsThreads, BsTiktok, BsXCircleFill, } from 'reac
 
 const PageFooter = () =>  {
   return (
-    <Footer container className='border border-t-8 border-orange-300'>
+    <Footer container className='border rounded-sm border-t-8 border-orange-300'>
       <div className="w-full max-w-7xl mx-auto">
         <div className="grid w-full justify-between  sm:flex md:grid-cols-1">
           <div className="">
