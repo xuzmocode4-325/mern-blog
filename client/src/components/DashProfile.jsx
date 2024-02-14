@@ -122,9 +122,12 @@ function DashProfile() {
                                 path: {
                                    stroke: `rgba(50, 200, 100, ${imageUploadProgress / 100}`
                                 },
-                                text:{
-                                    color: `rgb(50, 200, 100)`
-                                }
+                                text: {
+                                    // Text color
+                                    fill: 'rgb(50, 200, 100)',
+                                    // Text size
+                                    fontSize: '24px',
+                                  },
                             }}
                         />
                     )
