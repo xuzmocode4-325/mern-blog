@@ -51,7 +51,7 @@ const Oauth = () => {
             ) : 
             <>
                 <AiFillGoogleCircle className='w-6 h-6 mr-3'/>
-                Continue With Google 
+                <span>Continue With Google </span>
             </> 
         }
     </Button>
