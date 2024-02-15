@@ -2,13 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
+* {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
 }
 
+body {
+    height: 100vh;
+}
+
 .app {
     min-width: 100vw;
     min-height: 100vh;
+}
+
+.ql-editor {
+    font-size: 1.05rem; 
 }

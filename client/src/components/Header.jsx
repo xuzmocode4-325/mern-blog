@@ -33,9 +33,9 @@ const Header = () => {
       <Link to="/" className='self-center whitespace-nowrap 
         text-sm sm:text-xl font-semibold dark:text-ivory'>
         Wellness 
-          <span className='px-2 py-1 bg-gradient-to-r
-             from-yellow-200 via-red-300
-             to-orange-300 rounded-md text-off-white dark:text-zinc-900'>
+          <span className='px-2 py-1 ml-1 bg-gradient-to-r
+             from-cyan-400 via-green-300
+             to-blue-400 rounded-md text-white dark:text-[rgb(31,41,55)]'>
             Hub
           </span>
       </Link>  

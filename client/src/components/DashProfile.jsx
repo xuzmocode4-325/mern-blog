@@ -17,14 +17,14 @@ import {
 } from '../redux/user/userSlice';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
+import { Link } from 'react-router-dom';
 
 
 function DashProfile() {
-  const {currentUser, error} = useSelector(state=> state.user);
+  const {currentUser, error, loading} = useSelector(state=> state.user);
   const [imageFile, setImageFile] = useState(null);
   const [imageFileURL, setImageFileURL] = useState(null);
   const [imageUploadProgress, setimageUploadProgress] = useState(null); 
-  const {loading, error: errorMessage} = useSelector(state => state.user);
   const [updateUserSuccess, setUpdateUserSuccess] = useState(null);
   const [updateUserError, setUpdateUserError] = useState(null); 
   const [imageUploding, setImageUploading] = useState(false);
@@ -250,7 +250,7 @@ function DashProfile() {
             <TextInput type='text' id='password' placeholder='password'
              onChange={handleChange}>
             </TextInput>
-            <Button type='submit' gradientDuoTone='greenToBlue' outline>
+            <Button type='submit' gradientDuoTone='greenToBlue' outline disabled={loading || imageUploding}>
                 {
                     loading ? (
                         <>
@@ -261,6 +261,19 @@ function DashProfile() {
                         <span> Update </span>
                 }
             </Button>
+            {
+                currentUser.administrator && (
+                    <Link to='/create-post'>
+                        <Button 
+                            disabled={loading || imageUploding}
+                            type='button'
+                            gradientDuoTone='tealToLime'
+                            className='w-full'>
+                                Create Post
+                        </Button>
+                    </Link>
+                )
+            }
         </form>
         <div className='text-red-700 flex justify-between mt-5'>
             <span onClick={()=>setShowModal(true)} className='cursor-pointer p-1'>Delete Account</span>

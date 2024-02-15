@@ -16,6 +16,8 @@ import Dashboard from './pages/Dashboard';
 import Header from './components/Header';
 import PageFooter from './components/PageFooter';
 import PrivateRoute from './components/PrivateRoute';
+import AdminPrivateRoute from './components/AdminPrivateRoute';
+import CreatePost from './pages/CreatePost';
 
 const Layout = () => {
 
@@ -49,6 +51,15 @@ const router = createBrowserRouter([
             element: <Dashboard/>
           }
         ] 
+      },
+      {
+        element: <AdminPrivateRoute/>,
+        children: [
+          {
+            path: '/create-post',
+            element: <CreatePost/>
+          },
+        ]
       },
       {
         path:"/blog",

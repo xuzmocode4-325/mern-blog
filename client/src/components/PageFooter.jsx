@@ -6,16 +6,16 @@ import { BsPinterest, BsReddit, BsThreads, BsTiktok, BsXCircleFill, } from 'reac
 
 const PageFooter = () =>  {
   return (
-    <Footer container className='border rounded-sm border-t-8 border-orange-300'>
+    <Footer container className='border rounded-sm border-t-8 border-green-300'>
       <div className="w-full max-w-7xl mx-auto">
         <div className="grid w-full justify-between  sm:flex md:grid-cols-1">
           <div className="">
             <Link to="/" className='self-center whitespace-nowrap 
               text-lg sm:text-xl font-semibold dark:text-ivory'>
               Wellness 
-                <span className='px-2 py-1 bg-gradient-to-r
-                  from-yellow-200 via-red-300
-                  to-orange-300 rounded-md text-ivory dark:text-zinc-900'>
+                <span className='px-2 ml-1 py-1 bg-gradient-to-r
+                   from-cyan-400 via-green-300
+                   to-blue-400 rounded-md text-ivory dark:text-[rgb(31,41,55)]'>
                   Hub
                 </span>
             </Link> 
