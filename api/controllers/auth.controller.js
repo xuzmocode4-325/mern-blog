@@ -38,11 +38,11 @@ export const signin = async(req, res, next) => {
     try{
         const validUser = await User.findOne({username})
         if(!validUser){
-            return next(errorHandler(400, "Account not found"))
+            return next(errorHandler(400, "Invalid Sign In Credentials"))
         }
         const validPassword = bcryptjs.compareSync(password, validUser.password);
         if (!validPassword)  {
-            return next(errorHandler(400, "Account not found"))
+            return next(errorHandler(400, "Invalid Sign In Credentials"))
         }
 
         const token = jwt.sign(

@@ -4,12 +4,30 @@ import { toggleTheme } from '../redux/theme/themeSlice';
 import { Link, useLocation } from 'react-router-dom';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { FaMoon, FaSun } from 'react-icons/fa';
+import { signOutSuccess } from '../redux/user/userSlice';
 
 const Header = () => {
   const path = useLocation().pathname;
   const dispatch = useDispatch();
   const { currentUser } = useSelector(state => state.user)
   const { theme } = useSelector(state => state.theme)
+
+  const handleSignOut = async () => {
+    try {
+        const res = await fetch('/api/user/signout', {
+            method: "POST"
+        });
+        const data = await res.json(); 
+        if (!res.ok) {
+            console.log(data.message)
+        } else {
+            dispatch(signOutSuccess()); 
+        }
+    } catch (error) {
+        console.log(error.message)
+    }
+  }
+
   return (
     <Navbar className="border-b-2">
       <Link to="/" className='self-center whitespace-nowrap 
@@ -52,13 +70,13 @@ const Header = () => {
               <Dropdown.Item>Profile</Dropdown.Item>
             </Link>
             <Dropdown.Divider/>
-            <Dropdown.Item>Log Out</Dropdown.Item>
+            <Dropdown.Item onClick={handleSignOut}>Sign Out</Dropdown.Item>
           </Dropdown>
           ) : 
           ( 
-            <Link to='/sign-in' >
+            <Link to='/signin' >
               <Button className='text-sm sm:text-xl'
-                gradientDuoTone="redToYellow" outline>
+                gradientDuoTone="redToYellow" outline >
                 Sign In
               </Button>
             </Link>
