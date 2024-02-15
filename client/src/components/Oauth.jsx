@@ -13,6 +13,7 @@ const Oauth = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const {loading, error: errorMessage} = useSelector(state => state.user);
+    
     const handleGoogleClick = async () => {
         
         const provider = new GoogleAuthProvider();
@@ -20,7 +21,7 @@ const Oauth = () => {
 
         try {
             dispatch(signInStart());
-            const googleUserResults = await signInWithPopup(auth, provider)
+            const googleUserResults = await signInWithPopup(auth, provider);
             const res = await fetch('/api/auth/google', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},

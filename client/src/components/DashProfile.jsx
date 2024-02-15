@@ -1,22 +1,31 @@
-import { Alert, Button, TextInput } from 'flowbite-react';
-import { useEffect, useRef, useState } from 'react'
-import { useSelector } from 'react-redux';
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
-import { app } from '../firebase';
-import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-
+import { app } from '../firebase';
+import { useSelector, useDispatch  } from 'react-redux';
+import { Alert, Button, Spinner, TextInput } from 'flowbite-react';
+import { useEffect, useRef, useState } from 'react'
+import { CircularProgressbar } from 'react-circular-progressbar';
+import { updateStart, updateSuccess, updateFailure } from '../redux/user/userSlice';
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 
 
 function DashProfile() {
   const {currentUser} = useSelector(state=> state.user);
   const [imageFile, setImageFile] = useState(null);
   const [imageFileURL, setImageFileURL] = useState(null);
-  const [imageUploadProgress, setimageUploadProgress] = useState(null)
-  const [imageUploadError, setImageUploadError] = useState(null)
-  const filePickerRef = useRef()
-  const uploadeErrorMessage = 'Upload error. File must be of type .png, .jpg or jpeg  and less than 3MB'
+  const [imageUploadProgress, setimageUploadProgress] = useState(null); 
+  const {loading, error: errorMessage} = useSelector(state => state.user);
+  const [updateUserSuccess, setUpdateUserSuccess] = useState(null);
+  const [updateUserError, setUpdateUserError] = useState(null); 
+  const [imageUploding, setImageUploading] = useState(false);
+  const [imageUploadError, setImageUploadError] = useState(null);
+  const [formData, setFormData] = useState({});
+  const filePickerRef = useRef();
+  const dispatch = useDispatch();
+
+  const uploadeErrorMessage = 'Upload error. File must be an image type of less than 3MB'
     const handleImageUpload = (e) => {
+        setUpdateUserError(null)
+        setUpdateUserSuccess(null)
         const file = e.target.files[0];
         console.log(file.type)
         const fileTypes = [
@@ -57,6 +66,7 @@ function DashProfile() {
         //     }
         //   }
         // }
+        setImageUploading(true);
         setImageUploadError(null);
         const storage = getStorage(app);
         const filename = new Date().getTime() + imageFile.name;
@@ -78,6 +88,7 @@ function DashProfile() {
                 setImageFile(null)
                 setimageUploadProgress(null)
                 setImageFileURL(null)
+                setImageUploading(false)
             },
             
             () => {
@@ -85,12 +96,49 @@ function DashProfile() {
                     uploadTask.snapshot.ref
                 )
                 .then((downloadURL) => {
-                       setImageFileURL(downloadURL) 
+                       setImageFileURL(downloadURL); 
+                       setFormData({...formData, avatar: downloadURL});
+                       setImageUploading(false)
                     }    
                 )
             }
         )
-        console.log('upload image...')
+    }
+
+    const handleChange = (e) => {
+        setUpdateUserError(null)
+        setUpdateUserSuccess(null)
+        setFormData({...formData, [e.target.id]: e.target.value })
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (Object.keys(formData).length === 0) {
+            setUpdateUserError("No Changes Made")
+            return;
+        }
+        if (imageUploding) {
+            return; 
+        }
+        try {
+            dispatch(updateStart());
+            const res = await fetch(`/api/user/update/${currentUser._id}`, {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(formData),
+            });
+            const data = await res.json(); 
+            if (!res.ok) {
+                dispatch(updateFailure(data.message));
+                setUpdateUserError(data.message); 
+            } else {
+                dispatch(updateSuccess(data));
+                setUpdateUserSuccess("Profile Sucessfully Updated"); 
+            }
+        } catch (error) {
+            dispatch(updateFailure(error.message));
+            setUpdateUserError(error.message); 
+        }
     }
 
     return (
@@ -99,7 +147,7 @@ function DashProfile() {
             text-2xl'>
             Profile
         </h1>
-        <form className='flex flex-col gap-7'>
+        <form className='flex flex-col gap-7' onSubmit={handleSubmit}>
             <input type='file' accept='image/*' onChange={handleImageUpload}
             ref={filePickerRef} hidden/>
             <div className='relative w-32 h-32 self-center cursor-pointer
@@ -145,22 +193,42 @@ function DashProfile() {
                 )
             }
             <TextInput type='text' id='username' placeholder='username' 
-                defaultValue={currentUser.username}>
+                defaultValue={currentUser.username} onChange={handleChange}>
             </TextInput>
             <TextInput type='email' id='email' placeholder='email' 
-                defaultValue={currentUser.email}>
+                defaultValue={currentUser.email} onChange={handleChange}>
             </TextInput>
-            <TextInput type='text' id='password' placeholder='password'>
+            <TextInput type='text' id='password' placeholder='password'
+             onChange={handleChange}>
             </TextInput>
             <Button type='submit' gradientDuoTone='greenToBlue' outline>
-                Update
+                {
+                    loading ? (
+                        <>
+                            <Spinner size='sm'/>
+                            <span className='pl-3'>Loading...</span>
+                        </>
+                    ) : 
+                        <span> Update </span>
+                }
             </Button>
         </form>
-        <div className='text-red-700 flex justify-between mt-6'>
+        <div className='text-red-700 flex justify-between my-6'>
             <span className='cursor-pointer p-1'>Delete Account</span>
             <span className='cursor-pointer p-1'>Log Out</span>
         </div>
-      
+        {updateUserSuccess && (
+                <Alert color='success' className='w-full flex'>
+                    <span className='mx-auto'>{updateUserSuccess}</span>
+                </Alert>
+            )
+        }
+        {updateUserError && (
+                <Alert color='failure' className='w-full flex'>
+                    <span className='mx-auto'>{updateUserError}</span>
+                </Alert>
+            )
+        }
     </div>
   )
 }
