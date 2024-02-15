@@ -12,7 +12,7 @@ const Oauth = () => {
     const auth = getAuth(app);
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const {loading, error: errorMessage} = useSelector(state => state.user);
+    const { loading } = useSelector(state => state.user);
     
     const handleGoogleClick = async () => {
         

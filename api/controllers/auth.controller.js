@@ -46,7 +46,7 @@ export const signin = async(req, res, next) => {
         }
 
         const token = jwt.sign(
-            {id: validUser._id}, process.env.JWT_SECRET
+            {id: validUser._id, admin: validUser.administrator}, process.env.JWT_SECRET
         );
 
         const {password: pass, ...rest} = validUser._doc
@@ -69,7 +69,7 @@ export const google = async (req, res, next) => {
 
         if(existingUser){
             const token = jwt.sign(
-                {id: existingUser._id}, process.env.JWT_SECRET
+                {id: existingUser._id, admin: existingUser.administrator}, process.env.JWT_SECRET
             );
 
             const {password, ...rest} = existingUser._doc;
@@ -105,7 +105,7 @@ export const google = async (req, res, next) => {
             await newUser.save()
 
             const token = jwt.sign(
-                {id: newUser._id}, process.env.JWT_SECRET
+                {id: newUser._id, admin: newUser.administrator}, process.env.JWT_SECRET
             );
 
             const {password, ...rest} = newUser._doc
