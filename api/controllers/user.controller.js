@@ -47,3 +47,15 @@ export const update = async (req, res, next) => {
         next(error);
     }
 }
+
+export const remove = async (req, res, next) => {
+    if (req.user.id !== req.params.userId) {
+        return next(errorHandler(403, "Unauthenticated session. You must be signed in to delete account."))
+    }
+    try {
+        await User.findByIdAndDelete(req.params.userId)
+        res.status(200).json("Account successfully deleted.")
+    } catch (error) {
+        next(error);
+    }
+}

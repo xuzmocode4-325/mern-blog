@@ -38,11 +38,11 @@ export const signin = async(req, res, next) => {
     try{
         const validUser = await User.findOne({username})
         if(!validUser){
-            return next(errorHandler(400, "Matching credenitials not found"))
+            return next(errorHandler(400, "Account not found"))
         }
         const validPassword = bcryptjs.compareSync(password, validUser.password);
         if (!validPassword)  {
-            return next(errorHandler(400, "Matching credenitials not found"))
+            return next(errorHandler(400, "Account not found"))
         }
 
         const token = jwt.sign(
