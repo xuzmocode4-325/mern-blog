@@ -213,18 +213,18 @@ function DashProfile() {
                 }
             </Button>
         </form>
-        <div className='text-red-700 flex justify-between my-6'>
+        <div className='text-red-700 flex justify-between mt-5'>
             <span className='cursor-pointer p-1'>Delete Account</span>
             <span className='cursor-pointer p-1'>Log Out</span>
         </div>
         {updateUserSuccess && (
-                <Alert color='success' className='w-full flex'>
+                <Alert color='success' className='w-full flex mt-5'>
                     <span className='mx-auto'>{updateUserSuccess}</span>
                 </Alert>
             )
         }
         {updateUserError && (
-                <Alert color='failure' className='w-full flex'>
+                <Alert color='failure' className='w-full flex mt-5'>
                     <span className='mx-auto'>{updateUserError}</span>
                 </Alert>
             )
