@@ -2,18 +2,20 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react'
-import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice';
+import { signInStart, signInSuccess, signInFailure} from '../redux/user/userSlice';
 import Oauth from '../components/Oauth';
 
 const SignIn = () => {
   const [formData, setFormData] = useState({});
-  const {loading, error: errorMessage} = useSelector(state => state.user);
+  const {loading, error} = useSelector(state => state.user);
+  const [errorMessage, setErrorMessage] = useState(null)
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleChange = (e) => {
-    setFormData({...formData, [e.target.id]: e.target.value.trim()})
+    setFormData({...formData, [e.target.id]: e.target.value.trim()})  
   }
   const handleSubmit = async (e) => {
+    setErrorMessage(null)
     e.preventDefault();
     if (!formData.username || !formData.password) {
       return dispatch(signInFailure('Please ensure all fields are filled.'))
@@ -39,9 +41,9 @@ const SignIn = () => {
   }
 
   return (
-    <div className='max-h-screen mt-20'>
+    <div className='min-h-screen m-auto'>
       <div className="flex p-5 max-w-3xl mx-auto
-        flex-col md:flex-row gap-5 md:items-center ">
+        flex-col md:flex-row gap-5 md:items-center">
           {/* left */}
           <div className='flex-1 md:mt-20'>
             <Link to="/" className='font-bold dark:text-white text-4xl'>
@@ -83,12 +85,19 @@ const SignIn = () => {
             </form>
             <div className="flex gap-2 text-sm mt-5">
               <span>Don't have an account?</span>
-              <Link to='/sign-up' className='text-blue-600' disabled={loading}>
+              <Link to='/signup' className='text-blue-600' disabled={loading}>
                 Sign Up
               </Link>
             </div>
             {
-              errorMessage && (
+              error  && (
+                <Alert className='mt-5 text-center font-semibold' color='failure'>
+                  {error}
+                </Alert>
+              )
+            }
+            {
+              errorMessage  && (
                 <Alert className='mt-5 text-center font-semibold' color='failure'>
                   {errorMessage}
                 </Alert>

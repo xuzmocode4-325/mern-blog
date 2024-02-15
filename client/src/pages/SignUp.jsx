@@ -2,13 +2,18 @@ import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react'
 import {React,  useState} from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Oauth from '../components/Oauth';
+import { useDispatch, useSelector } from 'react-redux';
+import { signUpSuccess } from '../redux/user/userSlice';
 
 const SignUp = () => {
   const [formData, setFormData] = useState({});
   const [errorMessage, setErrorMessage] = useState(null);
-  const [loading, setLoading]  = useState(false);
+  const [successAlert, setSuccessAlert] = useState(null);
+  const [loading, setLoading] = useState(false) 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleChange = (e) => {
+    setErrorMessage(null)
     setFormData({...formData, [e.target.id]: e.target.value.trim()})
   }
   const handleSubmit = async (e) => {
@@ -17,30 +22,31 @@ const SignUp = () => {
       return setErrorMessage('Please ensure all fields are filled.')
     }
     try {
-      setLoading(true);
       setErrorMessage(null);
       const res = await fetch('/api/auth/signup', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
       });
       const data = await res.json();
-      if (data.success === false) {
-        setLoading(false)
+      if (!res.ok) {
+        setLoading(false);
         return setErrorMessage(data.message);
       }
-      setLoading(false)
+      
       if(res.ok){
-        navigate('/sign-in')
+        setLoading(false);
+        dispatch()
+        navigate('/signin');
       }
     } catch (error) {
-       setErrorMessage(error.message)
-       setLoading(false);
+      setLoading(false);
+      setErrorMessage(error.message); 
     }
   }
 
   return (
-    <div className='max-h-screen mt-20'>
+    <div className='min-h-screen m-auto'>
       <div className="flex p-5 max-w-3xl mx-auto
         flex-col md:flex-row gap-5 md:items-center ">
           {/* left */}
@@ -87,7 +93,7 @@ const SignUp = () => {
             </form>
             <div className="flex gap-2 text-sm mt-5">
               <span>Have an account?</span>
-              <Link to='/sign-in' className='text-blue-600' disabled={loading}>
+              <Link to='/signin' className='text-blue-600' disabled={loading}>
                 Sign In
               </Link>
             </div>
