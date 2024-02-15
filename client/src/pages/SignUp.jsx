@@ -1,16 +1,13 @@
 import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react'
-import {React,  useState} from 'react'
+import { useState, useEffect} from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Oauth from '../components/Oauth';
-import { useDispatch, useSelector } from 'react-redux';
-import { signUpSuccess } from '../redux/user/userSlice';
 
 const SignUp = () => {
   const [formData, setFormData] = useState({});
   const [errorMessage, setErrorMessage] = useState(null);
   const [successAlert, setSuccessAlert] = useState(null);
   const [loading, setLoading] = useState(false) 
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleChange = (e) => {
     setErrorMessage(null)
@@ -36,8 +33,10 @@ const SignUp = () => {
       
       if(res.ok){
         setLoading(false);
-        dispatch()
-        navigate('/signin');
+        setSuccessAlert("Sign Up Successful.")
+        setTimeout(() => {
+          navigate('/signin');
+        }, 4000);
       }
     } catch (error) {
       setLoading(false);
@@ -101,6 +100,13 @@ const SignUp = () => {
               errorMessage && (
                 <Alert className='mt-5 text-center font-semibold' color='failure'>
                   {errorMessage}
+                </Alert>
+              )
+            }
+            {
+              successAlert && (
+                <Alert className='mt-5 text-center font-semibold' color='success'>
+                  {successAlert}
                 </Alert>
               )
             }
