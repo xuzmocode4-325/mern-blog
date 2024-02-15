@@ -15,7 +15,7 @@ const PageFooter = () =>  {
               Wellness 
                 <span className='px-2 ml-1 py-1 bg-gradient-to-r
                    from-cyan-400 via-green-300
-                   to-blue-400 rounded-md text-ivory dark:text-[rgb(31,41,55)]'>
+                   to-blue-400 rounded-md text-white dark:text-[rgb(31,41,55)]'>
                   Hub
                 </span>
             </Link> 

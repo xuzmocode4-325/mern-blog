@@ -11,6 +11,7 @@ export const update = async (req, res, next) => {
     if (req.user.id !== req.params.userId) {
         return next(errorHandler(403, "Unauthenticated session. You must be signed in to update credentials."))
     }
+
     if (req.body.password){
         if (req.body.password.length < 7) {
             return next(errorHandler(400, "Password must be atleast 7 characters long."))
@@ -32,6 +33,7 @@ export const update = async (req, res, next) => {
             return next(errorHandler(400, "Username must only contain letters and numbers."))
         }
     }
+
     try {
         const updateUser = await User.findByIdAndUpdate(req.params.userId, {
             $set: {
@@ -52,6 +54,7 @@ export const remove = async (req, res, next) => {
     if (req.user.id !== req.params.userId) {
         return next(errorHandler(403, "Unauthenticated session. You must be signed in to delete account."))
     }
+    
     try {
         await User.findByIdAndDelete(req.params.userId)
         res.status(200).json("Account successfully deleted.")
