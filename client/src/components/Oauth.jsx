@@ -41,7 +41,9 @@ const Oauth = () => {
         }
     }
   return (
-    <Button type="button" gradientDuoTone='pinkToOrange' 
+    <Button type="button"  className='bg-gradient-to-br 
+    from-purple-400 via-blue-400 to-green-300 
+    hover:bg-gradient-to-bl' disabled={loading}
         outline onClick={handleGoogleClick}>
         {
             loading ? (

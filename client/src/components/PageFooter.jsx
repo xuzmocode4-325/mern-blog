@@ -13,9 +13,9 @@ const PageFooter = () =>  {
             <Link to="/" className='self-center whitespace-nowrap 
               text-lg sm:text-xl font-semibold dark:text-ivory'>
               Wellness 
-                <span className='px-2 ml-1 py-1 bg-gradient-to-r
-                   from-cyan-400 via-green-300
-                   to-blue-400 rounded-md text-white dark:text-[rgb(31,41,55)]'>
+                <span className='px-2 ml-1 py-1 bg-gradient-to-br
+                 from-purple-400 via-blue-400 to-green-400 
+              hover:bg-gradient-to-bl rounded-md text-white dark:text-[rgb(31,41,55)]'>
                   Hub
                 </span>
             </Link> 

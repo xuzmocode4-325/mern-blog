@@ -52,9 +52,9 @@ const SignUp = () => {
           <div className='flex-1 md:mt-20'>
             <Link to="/" className='font-bold dark:text-white text-4xl'>
               Wellness 
-                <span className='px-2 py-1 bg-gradient-to-r
-                  from-yellow-200 via-red-300
-                  to-orange-300 rounded-md text-white'>
+                <span className='px-2 ml-1 py-1 bg-gradient-to-br
+                 from-purple-400 via-blue-400 to-green-400 
+              hover:bg-gradient-to-bl rounded-md text-white' >
                   Hub
                 </span>
             </Link>  
@@ -78,7 +78,9 @@ const SignUp = () => {
                 <TextInput type='password' autoComplete='new_password' 
                   placeholder='Password' id='password' onChange={handleChange}/>
               </div>
-              <Button gradientDuoTone='redToYellow' type='submit'>
+              <Button className='bg-gradient-to-br 
+              from-purple-400 via-blue-400 to-green-300 
+              hover:bg-gradient-to-bl' type='submit' disabled={loading}>
               {
                   loading ? (
                     <>
