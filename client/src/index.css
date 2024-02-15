@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-body > #root > div {
-    height: 100%;
+body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.app {
+    min-width: 100vw;
+    min-height: 100vh;
 }
