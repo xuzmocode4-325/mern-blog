@@ -46,9 +46,9 @@ const SignIn = () => {
         flex-col md:flex-row gap-5 md:items-center">
           {/* left */}
           <div className='flex-1 md:mt-20'>
-            <Link to="/" className='font-bold dark:text-white text-4xl'>
+            <Link to="/" className='font-extralight dark:text-white text-4xl'>
               Wellness 
-                <span className='px-2 ml-1 py-1 bg-gradient-to-br
+                <span className='font-semibold px-2 ml-1 py-1 bg-gradient-to-br
                  from-purple-400 via-blue-400 to-green-300 
               hover:bg-gradient-to-bl rounded-md text-white'>
                   Hub

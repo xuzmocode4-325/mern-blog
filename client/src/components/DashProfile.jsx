@@ -24,7 +24,7 @@ function DashProfile() {
   const {currentUser, error, loading} = useSelector(state=> state.user);
   const [imageFile, setImageFile] = useState(null);
   const [imageFileURL, setImageFileURL] = useState(null);
-  const [imageUploadProgress, setimageUploadProgress] = useState(null); 
+  const [imageUploadProgress, setImageUploadProgress] = useState(null); 
   const [updateUserSuccess, setUpdateUserSuccess] = useState(null);
   const [updateUserError, setUpdateUserError] = useState(null); 
   const [imageUploding, setImageUploading] = useState(false);
@@ -68,16 +68,6 @@ function DashProfile() {
     }, [imageFile]);
 
     const uploadImage = async () => {
-        // service firebase.storage {
-        //    match /b/{bucket}/o {
-        //      match /{allPaths=**} {
-        //        allow read: 
-        //        allow write: if 
-        //        request.resource.size < 3 * 1024 * 1024 &&
-        //        request.resource.contentType.matches('image/.*');
-        //     }
-        //   }
-        // }
         setImageUploading(true);
         setImageUploadError(null);
         const storage = getStorage(app);
@@ -89,30 +79,23 @@ function DashProfile() {
             (snapshot) => {
                 const progress = 
                 (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-
-                setimageUploadProgress(
-                    progress.toFixed(0)
-                );
+                setImageUploadProgress(progress.toFixed(0));
             },
             (error) => {
                 console.log(error)
                 setImageUploadError(uploadeErrorMessage)
                 setImageFile(null)
-                setimageUploadProgress(null)
+                setImageUploadProgress(null)
                 setImageFileURL(null)
                 setImageUploading(false)
             },
-            
             () => {
-                getDownloadURL(
-                    uploadTask.snapshot.ref
-                )
+                getDownloadURL(uploadTask.snapshot.ref)
                 .then((downloadURL) => {
                        setImageFileURL(downloadURL); 
                        setFormData({...formData, avatar: downloadURL});
                        setImageUploading(false)
-                    }    
-                )
+                });
             }
         )
     }
@@ -250,7 +233,8 @@ function DashProfile() {
             <TextInput type='text' id='password' placeholder='password'
              onChange={handleChange}>
             </TextInput>
-            <Button type='submit' gradientDuoTone='greenToBlue' outline disabled={loading || imageUploding}>
+            <Button type='submit'  gradientDuoTone='tealToLime'  
+                outline disabled={loading || imageUploding}>
                 {
                     loading ? (
                         <>
@@ -266,9 +250,8 @@ function DashProfile() {
                     <Link to='/create-post'>
                         <Button 
                             disabled={loading || imageUploding}
-                            type='button'
-                            gradientDuoTone='tealToLime'
-                            className='w-full'>
+                            type='button' className='w-full bg-gradient-to-br
+                             from-green-400  via-blue-400 to-purple-400'>
                                 Create Post
                         </Button>
                     </Link>

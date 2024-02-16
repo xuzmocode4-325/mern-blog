@@ -11,9 +11,9 @@ const PageFooter = () =>  {
         <div className="grid w-full justify-between  sm:flex md:grid-cols-1">
           <div className="">
             <Link to="/" className='self-center whitespace-nowrap 
-              text-lg sm:text-xl font-semibold dark:text-ivory'>
+              text-lg sm:text-xl font-extralight dark:text-ivory'>
               Wellness 
-                <span className='px-2 ml-1 py-1 bg-gradient-to-br
+                <span className='px-2 ml-1 font-semibold py-1 bg-gradient-to-br
                  from-purple-400 via-blue-400 to-green-400 
               hover:bg-gradient-to-bl rounded-md text-white dark:text-[rgb(31,41,55)]'>
                   Hub
