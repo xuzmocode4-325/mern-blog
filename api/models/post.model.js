@@ -28,6 +28,9 @@ const postSchema = new mongoose.Schema(
             type: String,
             required: true,
             unique: true,
+        }, published :{
+            type: Boolean,
+            default: false, 
         }
     },  {timestamps: true}
 );

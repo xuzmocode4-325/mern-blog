@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 function DashPosts() {
   const { currentUser } = useSelector((state) => state.user)
   const [userPosts, setUserPosts] = useState([])
-  console.log(userPosts)
+  const [showMore, setShowMore] = useState(true)
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -15,6 +15,9 @@ function DashPosts() {
         const data = await res.json() 
         if (res.ok) {
           setUserPosts(data.posts)
+          if (data.posts.length < 9) {
+            setShowMore(false);
+          }
         }
       } catch (error) {
          console.log(error.message)
@@ -24,6 +27,25 @@ function DashPosts() {
       fetchPosts(); 
     }
   }, [currentUser._id]);
+
+  const handleShowMore = async () => {
+    const startIndex = userPosts.length
+    try {
+      const res = await fetch(
+        `/api/post/search?userId=${currentUser._id}&startIndex=${startIndex}`
+      ); 
+      const data = await res.json() 
+      if (res.ok) {
+        setUserPosts((prev) => [...prev, ...data.posts]);
+        if (data.posts.length < 9) {
+          setShowMore(false)
+        }
+        console.log(data)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const formatDateCreated = (date) => {
     const options = { 
@@ -45,10 +67,11 @@ function DashPosts() {
     const day = 24 * hour; // milliseconds in a day
     const month = 30 * day; // approximate milliseconds in a month
 
-    if (deltaTime < minute) {
+    if (deltaTime < minute * 5) {
         return "a few minutes ago";
     } else if (deltaTime < hour) {
-        return "less than an hour ago";
+        const minutes = Math.floor(deltaTime / minute);
+        return `about ${minutes} minutes ago`;
     } else if (deltaTime < day) {
         const hours = Math.floor(deltaTime / hour);
         return `more than ${hours} hour${hours > 1 ? 's' : ''} ago`;
@@ -68,13 +91,6 @@ function DashPosts() {
     }
   }
 
-// Example usage:
-const lastUpdated = new Date('2024-02-16T12:00:00'); // Example date
-console.log(formatLastUpdated(lastUpdated)); // Output the formatted date difference
-
-    
-  
-
   return (
     <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar
      scrollbar-track-slate-100 scrollbar-thumb-slate-300
@@ -89,15 +105,18 @@ console.log(formatLastUpdated(lastUpdated)); // Output the formatted date differ
               <Table.HeadCell>Image</Table.HeadCell>
               <Table.HeadCell>Title</Table.HeadCell>
               <Table.HeadCell>Category</Table.HeadCell>
+              <Table.HeadCell>Status</Table.HeadCell>
               <Table.HeadCell>
                   Edit
               </Table.HeadCell>
               <Table.HeadCell>Delete</Table.HeadCell>
             </Table.Head>
             <Table.Body className='divide-y'>
+            
             {
               userPosts.map((post) => (
-                <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800'>
+            
+                <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800' key={post._id}>
                   <Table.Cell>{formatDateCreated(post.createdAt)}</Table.Cell>
                   <Table.Cell>{formatLastUpdated(post.updatedAt)}</Table.Cell>
                   <Table.Cell>
@@ -116,6 +135,7 @@ console.log(formatLastUpdated(lastUpdated)); // Output the formatted date differ
                     </Link>
                   </Table.Cell>
                   <Table.Cell>{post.category}</Table.Cell>
+                  <Table.Cell>{post.published ? ("Published") : ("Draft")}</Table.Cell>
                   <Table.Cell>
                     <Link className='text-teal-500 hover:underline' 
                       to={`/update/${post._id}`}>
@@ -128,9 +148,17 @@ console.log(formatLastUpdated(lastUpdated)); // Output the formatted date differ
                     </span>
                   </Table.Cell>
                 </Table.Row> 
-            ))}
-            </Table.Body>
+            ))} 
+              </Table.Body>
           </Table>
+          {
+            showMore && (
+              <button onClick={handleShowMore} 
+                className='w-full font-semibold text-teal-500 self-center text-sm py-5'>
+                Show More
+              </button>
+            )
+          }
         </>
         ) : (<p>No Posts To Display</p>)
       }

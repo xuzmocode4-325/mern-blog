@@ -8,18 +8,18 @@ const PageFooter = () =>  {
   return (
     <Footer container className='border rounded-sm border-t-8 border-green-300'>
       <div className="w-full max-w-7xl mx-auto">
-        <div className="grid w-full justify-between  sm:flex md:grid-cols-1">
-          <div className="">
+      <div className="">
             <Link to="/" className='self-center whitespace-nowrap 
               text-lg sm:text-xl font-extralight dark:text-ivory'>
-              Wellness 
+              Exquisite
                 <span className='px-2 ml-1 font-semibold py-1 bg-gradient-to-br
                  from-purple-400 via-blue-400 to-green-400 
               hover:bg-gradient-to-bl rounded-md text-white dark:text-[rgb(31,41,55)]'>
-                  Hub
+                  Beats
                 </span>
             </Link> 
-          </div>
+        </div>
+        <div className="grid w-full justify-between  sm:flex md:grid-cols-1">
           <div className="grid grid-cols-1 gap-8 mt-4 
           sm:grid-cols-3 sm:gap-6" >
               <div className="">
@@ -74,7 +74,7 @@ const PageFooter = () =>  {
         </div>
         <Footer.Divider/>
           <div className="w-full sm:flex sm:items-center sm:justify-between">
-            <Footer.Copyright href='#' by="WellnessHub" year={new Date().getFullYear()}/>
+            <Footer.Copyright href='#' by="Exquisite Beats" year={new Date().getFullYear()}/>
             <div className="flex gap-6 sm:mt-0 mt-4 sm:justify-center">
             <Footer.Icon href="#" icon={BsXCircleFill}/>
             <Footer.Icon href="#" icon={BsThreads}/>

@@ -32,11 +32,11 @@ const Header = () => {
     <Navbar className="border-b-2">
       <Link to="/" className='self-center whitespace-nowrap 
         text-sm sm:text-xl font-extralight dark:text-ivory'>
-        Wellness 
+          Exquisite
           <span className='px-2 font-semibold ml-1 py-1 bg-gradient-to-br
                  from-purple-400 via-blue-400 to-green-400 
               hover:bg-gradient-to-bl rounded-md text-white dark:text-[rgb(31,41,55)]'>
-            Hub
+            Beats
           </span>
       </Link>  
       <form action="">
