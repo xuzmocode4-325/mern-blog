@@ -1,7 +1,6 @@
 import errorHandler from "../utils/error.js";
 import Post from '../models/post.model.js';
 
-
 export const create = async (req, res, next) => {
     if (!req.user.admin) {
         return next(errorHandler(403, "Permission not granted."))
@@ -34,6 +33,49 @@ export const create = async (req, res, next) => {
             success: true,
             post: savedPost
         })
+    } catch (error) {
+        next(error)
+    }
+}
+
+export const search = async (req, res, next) => { 
+    console.log(req)
+    try {
+        const startIndex = parseInt(req.query.startIndex) || 0;
+        const batch = parseInt(req.query.batch) || 9;
+        const sortOrder = req.query.order === 'asc'? 1 : -1; 
+        const posts = await Post.find({
+            ...(req.query.userId && { userId: req.query.userId }),
+            ...(req.query.category && { category: req.query.category }),
+            ...(req.query.slug && { slug: req.query.slug }),
+            ...(req.query.postId && { _id: req.query.postId }),
+            ...(req.query.searchTerms && { 
+                $or: [
+                    {title: { $regex: req.query.searchTerms, $options: 'i'}}, 
+                    {content: { $regex: req.query.searchTerms, $options: 'i'}}, 
+                ]
+            }),
+        }).sort({ updateAt: sortOrder }).skip(startIndex).limit(batch);
+
+        const totalPosts = await Post.countDocuments()
+      
+        const now = new Date();
+        const oneMonthAgo = new Date(
+            now.getFullYear(),
+            now.getMonth() - 1,
+            now.getDate(),
+        )
+
+        const lastMonthsPosts = await Post.countDocuments({
+            createdAt: { $gte: oneMonthAgo},
+        });
+
+        res.status(200).json({
+            posts,
+            totalPosts,
+            lastMonthsPosts, 
+        });
+
     } catch (error) {
         next(error)
     }
