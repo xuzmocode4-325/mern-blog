@@ -1,4 +1,4 @@
-import { Button, Modal, Table } from 'flowbite-react'
+import { Alert, Button, Modal, Table } from 'flowbite-react'
 import { useEffect, useState } from 'react'
 import { HiOutlineExclamationCircle } from 'react-icons/hi'
 import { useSelector } from 'react-redux'
@@ -193,7 +193,7 @@ function DashPosts() {
           }
         </>
         ) : (
-          <p>No Posts To Show Yet - Try Refreshing This Page</p>
+          <Alert color='warning'>No Posts To Show Yet - Try Refreshing This Page</Alert>
         )
       }
        <Modal 
