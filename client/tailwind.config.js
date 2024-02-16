@@ -42,5 +42,7 @@ export default {
        // Configure your color palette here
     }
   },
-  plugins: [require('flowbite/plugin')],
+  plugins: [
+    require('flowbite/plugin'), 
+    require('tailwind-scrollbar')],
 }
