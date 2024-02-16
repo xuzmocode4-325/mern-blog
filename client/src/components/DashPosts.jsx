@@ -4,6 +4,8 @@ import { HiOutlineExclamationCircle } from 'react-icons/hi'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
+// add infinite scroll 
+
 function DashPosts() {
   const { currentUser } = useSelector((state) => state.user)
   const [userPosts, setUserPosts] = useState([]);
@@ -46,29 +48,6 @@ function DashPosts() {
           setShowMore(false)
         }
         console.log(data)
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  const handleDeletePost = async () => {
-    setShowModal(false);
-    try {
-      const res = await fetch(
-        `api/post/discard/${toDelete.id}/${currentUser._id}`,
-        {method: 'DELETE'}
-      );
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        console.log(data.message)
-        return
-      } else if (res.ok) {
-        setUserPosts((prev) => {
-          prev.filter(post => post._id !== toDelete.id)
-        });
       }
     } catch (error) {
       console.log(error)
@@ -119,6 +98,28 @@ function DashPosts() {
     }
   }
 
+  const handleDeletePost = async () => {
+    setShowModal(false);
+    try {
+      const res = await fetch(
+        `api/post/discard/${toDelete.id}/${currentUser._id}`,
+        {method: 'DELETE'}
+      );
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        console.log(data.message)
+      } else {
+        setUserPosts((prev) => {
+          return prev.filter((post) => post._id !== toDelete.id)
+        });
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar
      scrollbar-track-slate-100 scrollbar-thumb-slate-300
@@ -143,8 +144,8 @@ function DashPosts() {
             </Table.Head>
             <Table.Body className='divide-y'>
             {
-              userPosts.map((post) => (
-                <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800' key={post._id}>
+              userPosts.map((post, idx) => (
+                <Table.Row className='bg-white dark:border-gray-700 dark:bg-gray-800' key={idx+1}>
                   <Table.Cell>{formatDateCreated(post.createdAt)}</Table.Cell>
                   <Table.Cell>{formatLastUpdated(post.updatedAt)}</Table.Cell>
                   <Table.Cell>
@@ -192,7 +193,7 @@ function DashPosts() {
           }
         </>
         ) : (
-          <p>No Posts To Show Yet</p>
+          <p>No Posts To Show Yet - Try Refreshing This Page</p>
         )
       }
        <Modal 
