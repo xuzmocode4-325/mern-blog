@@ -78,4 +78,16 @@ export const search = async (req, res, next) => {
     } catch (error) {
         next(error)
     }
-}
+};
+
+export const discard = async (req, res, next) => {
+    if(!req.user.admin || req.user.id !== req.params.userId) {
+        return next(errorHandler(403, 'Permission Error'))
+    }
+    try {
+        await Post.findByIdAndDelete(req.params.postId);
+        res.status(200).json('Post Successfully Deleted')
+    } catch (error) {
+        next(error); 
+    }
+};
