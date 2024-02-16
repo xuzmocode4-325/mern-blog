@@ -20,3 +20,21 @@ body {
 .ql-editor {
     font-size: 1.05rem; 
 }
+
+.ql-editor.ql-blank::before {
+    color: rgb(130, 130, 130);
+}
+
+.ql-toolbar .ql-stroke {
+    fill: none; 
+    stroke: rgb(130, 130, 130);
+}
+
+.ql-toolbar .ql-fill {
+    fill: rgb(130, 130, 130);
+    stroke: none;
+}
+
+.ql-toolbar .ql-picker {
+    color: rgb(130, 130, 130);
+}
