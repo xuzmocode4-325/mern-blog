@@ -51,16 +51,16 @@ const SignUp = () => {
           {/* left */}
           <div className='flex-1 md:mt-20'>
             <Link to="/" className='font-extralight dark:text-white text-4xl'>
-              Wellness 
+              Exquisite
                 <span className='font-semibold px-2 ml-1 py-1 bg-gradient-to-br
                  from-purple-400 via-blue-400 to-green-400 
               hover:bg-gradient-to-bl rounded-md text-white' >
-                  Hub
+                  Beats
                 </span>
             </Link>  
-            <div className="text-sm mt-5">
+            <div className="text-md mt-5">
               <p>
-              Cillum amet qui incididunt laboris commodo officia reprehenderit ipsum adipisicing tempor veniam.
+              by Xuzmonomi
               </p>
             </div>
           </div>  
