@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';  
 
-function DashUsers() {
+const DashUsers = () =>  {
     const { currentUser } = useSelector((state) => state.user)
     const [users, setUsers] = useState([]);
     const [showMore, setShowMore] = useState(true);

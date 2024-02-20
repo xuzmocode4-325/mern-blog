@@ -93,6 +93,7 @@ export const discard = async (req, res, next) => {
 };
 
 export const update = async (req, res, next) => {
+    console.log(req.body)
     if(!req.user.admin || req.user.id !== req.params.userId) {
         return next(errorHandler(403, 'Permission Error'))
     }
@@ -104,7 +105,8 @@ export const update = async (req, res, next) => {
                 title: req.body.title,
                 content: req.body.content, 
                 category: req.body.category,
-                image: req.body.image
+                image: req.body.image,
+                published: req.body.published
                 },  
             },  
             { new: true });

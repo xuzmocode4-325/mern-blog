@@ -6,8 +6,8 @@ import { BsPinterest, BsReddit, BsThreads, BsTiktok, BsXCircleFill, } from 'reac
 
 const PageFooter = () =>  {
   return (
-    <Footer container className='border rounded-sm border-t-8 border-green-300'>
-      <div className="w-full max-w-7xl mx-auto">
+    <Footer container className='border rounded-sm border-t-8 border-green-300 w-full'>
+      <div className="w-full max-w-6xl mx-auto">
       <div className="">
             <Link to="/" className='self-center whitespace-nowrap 
               text-lg sm:text-xl font-extralight dark:text-ivory'>

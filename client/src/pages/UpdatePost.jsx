@@ -12,13 +12,12 @@ import { useSelector } from 'react-redux';
 function UpdatePost() {
   
     const [imageUploadProgress, setImageUploadProgress] = useState(null); 
-    const [imageUploadError, setImageUploadError] = useState(null);
+    const [imageUploadError, setImageUploadAlert] = useState(null);
     const { currentUser } = useSelector((state) => state.user);
-    const [updateError, setUpdateError] = useState(null); 
+    const [updateAlert, setUpdateAlert] = useState(null); 
     const [imageFile, setImageFile] = useState(null); 
     const [formData, setFormData] = useState({});
     const { postId } = useParams();
-    const navigate = useNavigate();
 
     useEffect(() => {
         try {
@@ -27,30 +26,31 @@ function UpdatePost() {
                 const data = await res.json();
                 if (!res.ok) {
                     console.log(data.message)
-                    setUpdateError(data.message)
+                 setUpdateAlert({message: data.message, type: "failure"})
                     return;
                 } 
                 if (res.ok) {
                     console.log(data.posts)
-                    setUpdateError(null)
+                 setUpdateAlert({message: "Post Loaded Successfully", type: "success"})
                     setFormData(data.posts[0])
                 };
             };
             getPost();
         } catch (error) {
             console.log(error)
-            setUpdateError(data.message)
+         setUpdateAlert({message: error, type: "failure"})
         }
     }, [postId]);
   
     const handleImageUpload = (e) => {
+      setUpdateAlert(null)
       const file = e.target.files[0];
       const fileTypes = [
-          "image/apng",
+          "image/png",
           "image/bmp",
           "image/gif",
           "image/jpeg",
-          "image/pjpeg",
+          "image/jpg",
           "image/png",
           "image/svg+xml",
           "image/tiff",
@@ -61,10 +61,10 @@ function UpdatePost() {
           if (file && fileTypes.includes(file.type) && file.size < 3 * 1024 * 1024) {
               setImageFile(file);
           }  else if (!file) {
-              setImageUploadError("No File Selected"); 
+              setImageUploadAlert({message:"No File Selected", type: "failure"}); 
               console.log(imageUploadError);
           } else   {
-              setImageUploadError("File Not Supported"); 
+              setImageUploadAlert({message: "File Not Supprted", type: "failure"}); 
               console.log(imageUploadError);
           }          
       };
@@ -72,11 +72,11 @@ function UpdatePost() {
       const uploadImage = async () => {
           try {
               if (!imageFile) {
-                  setImageUploadError("No File Selected")
+                  setImageUploadAlert({message: "No File Selected", type: "failure"})
                   return; 
               }
               
-              setImageUploadError(null)
+              setImageUploadAlert(null)
               const storage = getStorage(app);
               const filename = new Date().getTime() + imageFile.name;
               const storageRef = ref(storage, filename);
@@ -90,7 +90,7 @@ function UpdatePost() {
                   },
                   (error) => {
                       console.log(error)
-                      setImageUploadError("Image Upload Failed")
+                      setImageUploadAlert({message:"Image Upload Failed", type:"failure"})
                       setImageFile(null)
                       setImageUploadProgress(null)
                   },
@@ -98,12 +98,12 @@ function UpdatePost() {
                       getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                           setFormData({...formData, image: downloadURL});
                           setImageUploadProgress(null);
-                          setImageUploadError(null); 
+                          setImageUploadAlert(null); 
                   });
               }); 
   
           } catch (error) {
-              setImageUploadError("Image Upload Failed");
+              setImageUploadAlert({message:"Image Upload Failed", type:"failure"});
               setImageUploadProgress(null); 
               console.log(error)
           }
@@ -112,8 +112,9 @@ function UpdatePost() {
   
     const handleFormSubmit = async (e) => {
       e.preventDefault();
+      setUpdateAlert(null)
       if (!formData.content) {
-          setUpdateError("No Post Content Submitted");
+         setUpdateAlert({message: "No Post Content Submitted", type:'failure'});
           console.log(updateError);
           return
       } else {
@@ -127,14 +128,13 @@ function UpdatePost() {
               });
               const data = await res.json();
               if (!res.ok) {
-                  setUpdateError(data.message);
+                 setUpdateAlert(data.message);
                   return
               } else if (res.ok) {
-                  setUpdateError(null);
-                  navigate('/dashboard?tab=posts')
+                setUpdateAlert({message:"Post Successfully Updated", type: "success"});
               }
           } catch (error) {
-              setUpdateError('Something Went Wrong');
+             setUpdateAlert({message:"Something Went Wrong", type: "failure"});
               console.log(error);
           }
       }
@@ -184,16 +184,23 @@ function UpdatePost() {
                       }
                   </Button>
               </div>
-              { imageUploadError && (
+              {formData.image && (
+                  <img src={formData.image} 
+                  alt='upload' 
+                  className='w-full h-72 object-cover'/>
+                  )
+              }
+               { imageUploadError && (
                   <Alert color='failure'>
                       {imageUploadError}
                   </Alert>
                   ) 
               }
-              {formData.image && (
-                  <img src={formData.image} 
-                  alt='upload' 
-                  className='w-full h-72 object-cover'/>
+              {
+                  updateAlert && (
+                      <Alert className='mt-5' color={updateAlert.type}>
+                          {updateAlert.message}
+                      </Alert>
                   )
               }
               <ReactQuill 
@@ -202,13 +209,6 @@ function UpdatePost() {
                   required value={formData.content}
                   />
               <Button type='submit' gradientDuoTone='tealToLime'>Update</Button>
-              {
-                  updateError && (
-                      <Alert className='mt-5' color='failure'>
-                          {updateError}
-                      </Alert>
-                  )
-              }
           </form>
       </div>
     )

@@ -12,13 +12,14 @@ import Blog from './pages/Blog';
 import About from './pages/About';
 import SignUp from './pages/SignUp';
 import SignIn from './pages/SignIn';
-import Dashboard from './pages/Dashboard';
 import Header from './components/Header';
+import Dashboard from './pages/Dashboard';
 import PageFooter from './components/PageFooter';
 import PrivateRoute from './components/PrivateRoute';
 import AdminPrivateRoute from './components/AdminPrivateRoute';
 import CreatePost from './pages/CreatePost';
 import UpdatePost from './pages/UpdatePost';
+import Search from './pages/Search';
 
 const Layout = () => {
 
@@ -45,11 +46,15 @@ const router = createBrowserRouter([
         element:<Blog/>
       },
       {
+        path:"/search",
+        element:<Search/>
+      },
+      {
         path:"/about",
         element:<About/>
       },
       {
-        path:"/post/:id",
+        path:"/post/:slug",
         element:<Post/>
       },
       {

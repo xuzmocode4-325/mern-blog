@@ -20,7 +20,7 @@ import { HiOutlineExclamationCircle } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
 
 
-function DashProfile() {
+const DashProfile = () => {
   const {currentUser, error, loading} = useSelector(state=> state.user);
   const [imageFile, setImageFile] = useState(null);
   const [imageFileURL, setImageFileURL] = useState(null);
