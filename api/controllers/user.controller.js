@@ -70,3 +70,47 @@ export const signout = async (req, res, next) => {
         next(error);
     }
 }
+
+export const getusers = async (req, res, next) => {
+    if (!req.user.admin) {
+        return next(errorHandler(403, "Unauthorized Request"))
+    }
+    try {
+        const startIndex = parseInt(req.query.startIndex) || 0; 
+        const batch = parseInt(req.query.limit) || 10; 
+        const sortOrder = req.query.sort === 'asc' ? 1 : -1;
+        
+        const users = await User.find()
+            .sort({createdAt: sortOrder})
+            .skip(startIndex)
+            .limit(batch); 
+
+        const usersDataNoPassword = users.map((user => {
+            const { password, ...rest } = user._doc; 
+            return rest;
+        }));
+
+        const totalUsers = await User.countDocuments();
+
+        const now = new Date();
+
+        const oneMonthAgo = new Date(
+            now.getFullYear(),
+            now.getMonth() - 1,
+            now.getDate(),
+        )
+
+        const lastMonthsUsers = await User.countDocuments({
+            createdAt: { $gte: oneMonthAgo},
+        });
+
+        res.status(200).json({
+            users: usersDataNoPassword,
+            totalUsers,
+            lastMonthsUsers, 
+        });
+        
+    } catch (error) {
+        next(error)
+    }
+}
