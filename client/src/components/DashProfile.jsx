@@ -140,7 +140,7 @@ function DashProfile() {
         setShowModal(false);
         try {
             dispatch(deleteUserStart());
-            const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+            const res = await fetch(`/api/user/remove/${currentUser._id}`, {
                 method: 'DELETE',
             })
             const data = await res.json();

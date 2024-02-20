@@ -51,8 +51,8 @@ export const update = async (req, res, next) => {
 }
 
 export const remove = async (req, res, next) => {
-    if (req.user.id !== req.params.userId) {
-        return next(errorHandler(403, "Unauthenticated session. You must be signed in to delete account."))
+    if (!req.user.admin && req.user.id !== req.params.userId) {
+        return next(errorHandler(403, "Permission Error. Unauthorized Delete Request"))
     }
     
     try {

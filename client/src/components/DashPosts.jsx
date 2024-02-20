@@ -91,7 +91,7 @@ function DashPosts() {
       const months = Math.floor(deltaTime / month);
       return `more than ${months} month${months > 1 ? 's' : ''} ago`;
     } else {
-      const years = Math.floor(deltaTime / year);
+      const years = Math.floor(deltaTime / years);
       return `more than ${years} year${years > 1 ? 's' : ''} ago`;
     }
   }
@@ -100,7 +100,7 @@ function DashPosts() {
     setShowModal(false);
     try {
       const res = await fetch(
-        `api/post/discard/${toDelete.id}/${currentUser._id}`,
+        `/api/post/discard/${toDelete.id}/${currentUser._id}`,
         {method: 'DELETE'}
       );
 
