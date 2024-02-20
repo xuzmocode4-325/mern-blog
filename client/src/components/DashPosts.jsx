@@ -13,8 +13,6 @@ function DashPosts() {
   const [showModal, setShowModal] = useState(false);
   const [toDelete, setToDelete] = useState({})
 
-  console.log(userPosts)
-
   useEffect(() => {
     const fetchPosts = async () => {
       try {

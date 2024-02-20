@@ -8,7 +8,6 @@ import { CircularProgressbar } from 'react-circular-progressbar';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { useNavigate } from 'react-router-dom';
 
-
 const CreatePost = () => {
   const [imageFile, setImageFile] = useState(null); 
   const [imageUploadError, setImageUploadError] = useState(null);

@@ -18,6 +18,7 @@ import PageFooter from './components/PageFooter';
 import PrivateRoute from './components/PrivateRoute';
 import AdminPrivateRoute from './components/AdminPrivateRoute';
 import CreatePost from './pages/CreatePost';
+import UpdatePost from './pages/UpdatePost';
 
 const Layout = () => {
 
@@ -40,6 +41,14 @@ const router = createBrowserRouter([
         element:<Home/>
       },
       {
+        path:"/blog",
+        element:<Blog/>
+      },
+      {
+        path:"/about",
+        element:<About/>
+      },
+      {
         path:"/post/:id",
         element:<Post/>
       },
@@ -56,18 +65,14 @@ const router = createBrowserRouter([
         element: <AdminPrivateRoute/>,
         children: [
           {
-            path: '/create-post',
+            path: '/create',
             element: <CreatePost/>
           },
+          {
+            path: '/update/:postId',
+            element: <UpdatePost/>
+          },
         ]
-      },
-      {
-        path:"/blog",
-        element:<Blog/>
-      },
-      {
-        path:"/about",
-        element:<About/>
       },
     ]
   },

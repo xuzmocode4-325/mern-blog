@@ -247,7 +247,7 @@ function DashProfile() {
             </Button>
             {
                 currentUser.administrator && (
-                    <Link to='/create-post'>
+                    <Link to='/create'>
                         <Button 
                             disabled={loading || imageUploding}
                             type='button' className='w-full bg-gradient-to-br
