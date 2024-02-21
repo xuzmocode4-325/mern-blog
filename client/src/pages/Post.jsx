@@ -2,6 +2,7 @@ import { Alert, Button, Spinner } from 'flowbite-react';
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom'
+import CallToAction from '../components/CallToAction';
 
 const Post = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -114,7 +115,7 @@ const Post = () => {
             </Button>
           </Link>
           <img src={post && post.image} alt={post && post.title} 
-          className='post-image mt-5 max-h-[600px] w-full object-cover debug'/>
+          className='post-image mt-5 max-h-[600px] w-full object-cover'/>
           <div className='p-5 mx-auto w-full flex text-xs
             justify-between max-w-xl sm:max-w-2xl border-b border-slate-300 mb-1'>
             <span>{post && formatDateCreated(post.createdAt)}</span>
@@ -122,10 +123,13 @@ const Post = () => {
           </div>
           <div className='p-5 max-w-3xl mx-auto w-full post-content'dangerouslySetInnerHTML={{__html: post && post.content}}>
           </div>
+          <div className='max-w-4xl mx-auto w-full'>
+            <CallToAction/>
+          </div>
         </main>
       {
         <div className='flex flex-col w-full'>
-          <Button className='m-3 self-center w-40' type='submit' gradientDuoTone='tealToLime'
+          <Button className='m-5 self-center w-40' type='submit' gradientDuoTone='tealToLime'
             onClick={handlePublish}>
             {
               post.published ? "Revert To Draft" : "Publish"

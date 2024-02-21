@@ -63,3 +63,12 @@ body {
    color: rgb(70, 70, 230); 
    text-decoration: none;
 }
+
+.debug {
+    border: 2px solid red; 
+}
+
+
+.normalize {
+    border: 2px solid transparent; 
+}
