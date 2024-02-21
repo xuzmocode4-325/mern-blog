@@ -7,16 +7,16 @@ const CallToAction = () => {
     items-center rounded-tl-2xl rounded-br-2xl rounded-tr-3xl text-center p-5">
       <div className='flex-1 flex flex-col justify-center'>
         <h2 className='text-3xl mb-3'>
-          Study Advanced Beatmaking
+          Study Advanced Beatmaking from Sampling and Composition to Arrangmenent, Mixing and Mastering
         </h2>
         <p className='text-gray-600 dark:text-gray-300'>
-          Check out the <span className='text-bold'>99 Beats</span> projects and go from from Noob to Pro Beatmaker in just 90 days
+          Check out the <span className=''>99 Beats</span> projects and go from from Noob to Pro Beatmaker in just 99 days
         </p>
         <Button className='mx-auto bg-gradient-to-br from-purple-400
            via-blue-400 to-green-400 text-xl rounded-bl-none mt-5 mb-3'>
            <a href="#" target='_blank' rel='noopener noreferrer'
             className='dark:text-[rgb(31,41,55)]'>
-            100 Beats Projects
+            99 Beat Projects
           </a> 
         </Button>
       </div>
