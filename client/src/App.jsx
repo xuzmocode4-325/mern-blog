@@ -20,11 +20,13 @@ import AdminPrivateRoute from './components/AdminPrivateRoute';
 import CreatePost from './pages/CreatePost';
 import UpdatePost from './pages/UpdatePost';
 import Search from './pages/Search';
+import ScrollToTop from './components/ScrollToTop';
 
 const Layout = () => {
 
   return(
     <>
+      <ScrollToTop/>
       <Header/>
       <Outlet/>
       <PageFooter/>

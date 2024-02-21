@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom'
 import CallToAction from '../components/CallToAction';
+import CommentSection from '../components/CommentSection';
+import { FaFrown } from 'react-icons/fa';
 
 const Post = () => {
   const { currentUser } = useSelector((state) => state.user);
@@ -101,7 +103,7 @@ const Post = () => {
             {post && post.title}
           </h1>
           {
-            (post && currentUser.administrator) && (
+            (currentUser && currentUser.administrator) && (
             <Alert  className='m-1 mx-auto w-24 flex ' color={
               !post.published ? "warning" : "success"
               }>
@@ -126,6 +128,7 @@ const Post = () => {
           <div className='max-w-4xl mx-auto w-full'>
             <CallToAction/>
           </div>
+          <CommentSection postId={post._id}/>
         </main>
       {
         <div className='flex flex-col w-full'>
@@ -135,12 +138,19 @@ const Post = () => {
               post.published ? "Revert To Draft" : "Publish"
             }
           </Button>
+          
         </div>
       }
     </>
     )
   } else {
-    return <>Oops, Somethig wen wrong.</>
+    return (
+      <div className='flex flex-col items-center justify-center min-h-screen text-center'>
+        <FaFrown className='h-14 w-14 text-green-400 mb-4 mx-auto'/> 
+        <p className='text-gray-500 text-xl'>Oops! Something Went Wrong.</p>
+        <p className='text-gray-500'>Please Refresh The Page.</p>
+      </div>
+    )
   }
   
 }

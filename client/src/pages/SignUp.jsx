@@ -45,7 +45,7 @@ const SignUp = () => {
   }
 
   return (
-    <div className='min-h-screen m-auto'>
+    <div className='min-h-screen mx-auto mt-10'>
       <div className="flex p-5 max-w-3xl mx-auto
         flex-col md:flex-row gap-5 md:items-center ">
           {/* left */}
